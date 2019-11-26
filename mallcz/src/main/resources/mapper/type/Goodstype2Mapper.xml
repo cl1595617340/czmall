@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.Goodstype2Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Goodstype2">
+        <id column="goodstype2_id" property="goodstype2Id" />
+        <result column="goodstype2_name" property="goodstype2Name" />
+        <result column="goodstype_id" property="goodstypeId" />
+        <result column="goodstype2_state" property="goodstype2State" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        goodstype2_id, goodstype2_name, goodstype_id, goodstype2_state
+    </sql>
+
+</mapper>
