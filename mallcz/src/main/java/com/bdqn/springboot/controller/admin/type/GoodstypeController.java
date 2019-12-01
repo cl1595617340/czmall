@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,6 +39,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/admin/type/goodstype")
 public class GoodstypeController {
+
 
 
     @Resource
@@ -185,12 +187,13 @@ public class GoodstypeController {
 
 
 
+//    ---------------------------------------------------------------------------------4次文件上传开始------------------
     /*z这里写2个上传文件的方法是因为要上传到前端项目和后端项目，方便项目开发和打包后使用（路径问题）
     * ,还有一个方法里的MultipartFile文件对象，好像不能用2次，不然会报错（找不到第二个文件上传路径）
     * */
     //这个是后台
     public void upload(MultipartFile file){
-
+        System.out.println("2");
         try {
             // 获取项目根路径
             final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
@@ -217,6 +220,7 @@ public class GoodstypeController {
     @RequestMapping(value = "/upload02",method = RequestMethod.POST)
     public void upload02(MultipartFile file){
         try {
+            System.out.println("1");
             // 获取项目根路径
             final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
             String str = basePath.toString();
@@ -231,14 +235,43 @@ public class GoodstypeController {
             //加密后的文件新名字
             String newFileName = UUID.randomUUID() + "." + suffix;
 
+
+            //文件名字赋值给全局
+            uploadPicturename = newFileName;
+
             File file2 = new File(path + newFileName);
             file.transferTo(file2);
 
             String imgurl = file2.toString();
             System.out.println(imgurl);
 
-            //文件名字赋值给全局
-            uploadPicturename = newFileName;
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    }
+
+
+    //在这里上传第三次图片，是因为vue整合spring后，修改图片无法及时回显，所以上传到Totarge编译文件里
+    @RequestMapping(value = "/upload03Totarget",method = RequestMethod.POST)
+    public void upload03Totarget(MultipartFile file){
+        System.out.println("3");
+        try {
+            // 获取项目根路径
+            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            String str = basePath.toString();
+            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
+
+
+            String path = str1+"target\\classes\\static\\static\\images\\goodstype3\\";
+
+            File file2 = new File(path + uploadPicturename);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -246,6 +279,26 @@ public class GoodstypeController {
     }
 
 
+    //第4次上传文件，这个是项目前台
+    @RequestMapping(value = "/upload04Tofront",method = RequestMethod.POST)
+    public void upload04Tofront(MultipartFile file){
+        try {
+            System.out.println("4");
+            // 获取项目根路径
+
+            String path = "D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\static\\images\\goodstype3\\";
+
+            File file2 = new File(path + uploadPicturename);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * 添加类目（）
@@ -348,13 +401,47 @@ public class GoodstypeController {
     }
 
 
-    @RequestMapping("/updatesb")
-    public String updatesb(String idss){
-        String[] ids = idss.split(",");//把数组里的值逗号隔开
-        for (String s : ids) {
-            System.out.println(s);
+
+    //修改图片前要先删除他的上一个图片
+    @RequestMapping("/delete")
+   public String delete(String delete){
+
+        try {
+            /*2个vue项目的图片*/
+            File file=new File("D:\\web\\js\\vue-manage-system-master\\public\\"+ delete);
+            if(file.exists() && file.isFile()){
+                file.delete();
+            }
+
+            File file2 = new File("D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\"+ delete);
+            if(file2.exists() && file2.isFile()){
+                file2.delete();
+            }
+
+            // 获取项目根路径
+            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            String str = basePath.toString();
+            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
+
+            String path = str1+"\\src\\main\\resources\\static\\";
+
+            File file3 = new File(path+ delete);
+            if(file3.exists() && file3.isFile()){
+                file3.delete();
+            }
+
+
+            String path2 = str1+"target\\classes\\static\\";
+
+            File file4 = new File(path2+ delete);
+            if(file4.exists() && file4.isFile()){
+                file4.delete();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        return null;
-    }
+
+        return "";
+   }
 }
 

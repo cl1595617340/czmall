@@ -1,10 +1,12 @@
 package com.bdqn.springboot.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.bdqn.springboot.entity.Goodstype;
 import com.bdqn.springboot.dao.GoodstypeMapper;
 import com.bdqn.springboot.entity.Goodstype2;
 import com.bdqn.springboot.service.GoodstypeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +27,10 @@ public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype
 
     @Resource
     private GoodstypeMapper goodstypeMapper;
+
+    //springboot操作redis的对象
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
 
 
     @Override
@@ -62,9 +68,25 @@ public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype
         return goodstypeMapper.updateType3AllDescendant(map);
     }
 
+    /*---------------------------------------------------------------------项目前台的接口----------*/
 
+    @Override
+    public String getAllGoodsTypeByF() throws Exception {
+        //从redis缓存中读取博客分类信息
+        String getAllGoodsTypeByF = redisTemplate.opsForValue().get("getAllGoodsTypeByF");
+        if (getAllGoodsTypeByF==null || getAllGoodsTypeByF.length()==0){
+            List<Goodstype> goodstypeList = goodstypeMapper.getAllGoodsTypeByF();
+            getAllGoodsTypeByF = JSON.toJSONString(goodstypeList);
+            redisTemplate.opsForValue().set("getAllGoodsTypeByF",getAllGoodsTypeByF);
+        }
 
+        return getAllGoodsTypeByF;
+    }
 
+    @Override
+    public Goodstype getGoodstypeTo23ByF(Integer id) throws Exception {
+        return goodstypeMapper.getGoodstypeTo23ByF(id);
+    }
 
 
 }

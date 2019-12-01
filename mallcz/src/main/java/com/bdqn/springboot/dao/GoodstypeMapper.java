@@ -40,4 +40,12 @@ public interface GoodstypeMapper extends BaseMapper<Goodstype> {
 
     /*修改1级分类下所有的3级分类状态，要拿他所有2级分类的id，所以要用数组批量修改*/
     int updateType3AllDescendant(Map<String,Object> map)throws Exception;
+
+
+    /*---------------------------------------------------------------------项目前台的接口----------*/
+    /*没被禁用的1级分类*/
+    List<Goodstype> getAllGoodsTypeByF()throws Exception;
+
+    /*1级分类显示其下的所有分类信息,(id是1级分类的id)*/
+    Goodstype getGoodstypeTo23ByF(Integer id)throws Exception;
 }

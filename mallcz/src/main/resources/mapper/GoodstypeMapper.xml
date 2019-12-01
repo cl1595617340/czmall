@@ -89,4 +89,15 @@ WHERE goodstype3_id = #{id}
         </foreach>
     </update>
 
+    <!-- ================================================================项目前台的接口==== -->
+    <select id="getAllGoodsTypeByF" resultType="com.bdqn.springboot.entity.Goodstype">
+SELECT * FROM goodstype WHERE goodstype_state = 0
+    </select>
+
+    <select id="getGoodstypeTo23ByF" resultMap="BaseResultMap">
+    SELECT g1.*,g2.goodstype2_id g2_id,g2.goodstype2_name g2_name,g2.goodstype2_state g2_state  ,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name,g3.goodstype3_state g3_state,g3.goodstype3_picture g3_picture FROM goodstype g1
+JOIN goodstype2 g2 ON (g2.goodstype_id = g1.goodstype_id)
+JOIN goodstype3 g3 ON (g3.goodstype2_id = g2.goodstype2_id)
+WHERE g1.goodstype_id = #{id}
+    </select>
 </mapper>

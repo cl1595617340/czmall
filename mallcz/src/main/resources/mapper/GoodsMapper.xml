@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Goods">
+        <id column="goods_id" property="goodsId" />
+        <result column="goods_type3_id" property="goodsType3Id" />
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_describe" property="goodsDescribe" />
+        <result column="goods_repertory" property="goodsRepertory" />
+        <result column="goods_info" property="goodsInfo" />
+        <result column="goods_explain" property="goodsExplain" />
+        <result column="goods_create" property="goods_create" />
+        <result column="goods_state" property="goods_state" />
+
+        <association property="goodstype3" javaType="com.bdqn.springboot.entity.Goodstype3">
+            <id column="g3_id" property="goodstype3Id" />
+            <result column="g3_name" property="goodstype3Name" />
+        </association>
+
+
+        <collection property="versionsList" ofType="com.bdqn.springboot.entity.Versions" column="goods_id" select="getVersions"/>
+
+        <collection property="goodscolorList" ofType="com.bdqn.springboot.entity.Goodscolor" column="goods_id" select="getGoodscolor"/>
+
+    </resultMap>
+
+    <!-- 通用查询映射结果getVersions -->
+    <resultMap id="BaseResultMap2" type="com.bdqn.springboot.entity.Versions">
+        <id column="versions_id" property="versionsId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="versions_name" property="versionsName" />
+        <result column="versions_price" property="versionsPrice" />
+    </resultMap>
+    <!-- 通用查询映射结果getGoodscolor -->
+    <resultMap id="BaseResultMap3" type="com.bdqn.springboot.entity.Goodscolor">
+        <id column="goodscolor_id" property="goodscolorId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goodscolor_name" property="goodscolorName" />
+        <result column="goodscolor_picture" property="goodscolorPicture" />
+    </resultMap>
+
+    <select id="getVersions" resultMap="BaseResultMap2">
+SELECT * FROM versions v WHERE v.goods_id = #{id}
+    </select>
+
+    <select id="getGoodscolor" resultMap="BaseResultMap3">
+SELECT * FROM goodscolor c WHERE goods_id = #{id}
+    </select>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        goods_id, goods_type3_id, goods_name, goods_describe, goods_repertory, goods_info, goods_explain
+    </sql>
+
+    <select id="getGoodsList" resultMap="BaseResultMap">
+        SELECT gs.*,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name FROM goods gs
+      /*   SELECT gs.*,v.versions_id v_id,v.versions_name v_name,v.versions_price v_price,c.goodscolor_id c_id,c.goodscolor_name c_name,c.goodscolor_picture c_img,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name FROM goods gs
+        left JOIN versions v ON (v.goods_id = gs.goods_id)
+        left JOIN goodscolor c ON (c.goods_id =gs.goods_id)*/
+        JOIN goodstype3 g3 ON (gs.goods_type3_id = g3.goodstype3_id)
+        <where>
+            <if test="goods.strartDate!=null and goods.strartDate!='' and goods.endDate!=null and goods.endDate!=''">
+                AND goods_create BETWEEN #{goods.strartDate} AND #{goods.endDate}
+            </if>
+            <if test="goods.goodsType3Id!=null">
+                AND goods_type3_id = #{goods.goodsType3Id}
+            </if>
+            <if test="goods.goodsName!=null and goods.goodsName!=''">
+                and (gs.goods_name like concat('%',#{goods.goodsName},'%') or gs.goods_describe like concat('%',#{goods.goodsName},'%'))
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <update id="updateGodosState">
+        update goods
+        <set>
+            <if test="state!=null">
+                goods_state = ${state},
+            </if>
+        </set>
+        where goods_id in
+        <foreach item="ids" collection="ids" index="no" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
+
+
+    <select id="Versionslist" resultMap="BaseResultMap2">
+SELECT * FROM versions WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="GoodscolorlistById" resultMap="BaseResultMap3">
+SELECT * FROM goodscolor WHERE goods_id = #{goodsId}
+    </select>
+</mapper>

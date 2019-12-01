@@ -20,7 +20,7 @@ public class TestMP {
     private static String username ="root";//数据库用户名
     private static String password ="accp";//数据库密码
     private static String tablePrefix ="";//数据库表的前缀，如tbl_user
-    private static String [] tables = {"goodstype","goodstype2","goodstype3"};	//生成的表
+    private static String [] tables = {"phone","versions","goodscolor","parameter","goods"};	//生成的表
     private static String parentPackage = "com.bdqn.springboot";//顶级包结构
     private static String dao = "dao";//数据访问层包名称
     private static String service = "service";//业务逻辑层包名称
