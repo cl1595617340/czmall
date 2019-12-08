@@ -3,6 +3,8 @@ package com.bdqn.springboot.service;
 import com.bdqn.springboot.entity.Goodstype3;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface Goodstype3Service extends IService<Goodstype3> {
 
+    /*主页的大模糊查询*/
+    List<Goodstype3> f_getType3AndGoods(String name)throws Exception;
 }

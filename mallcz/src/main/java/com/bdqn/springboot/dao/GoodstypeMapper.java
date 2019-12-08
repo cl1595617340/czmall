@@ -3,6 +3,7 @@ package com.bdqn.springboot.dao;
 import com.bdqn.springboot.entity.Goodstype;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bdqn.springboot.entity.Goodstype2;
+import com.bdqn.springboot.entity.Goodstype3;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -48,4 +49,6 @@ public interface GoodstypeMapper extends BaseMapper<Goodstype> {
 
     /*1级分类显示其下的所有分类信息,(id是1级分类的id)*/
     Goodstype getGoodstypeTo23ByF(Integer id)throws Exception;
+
+
 }

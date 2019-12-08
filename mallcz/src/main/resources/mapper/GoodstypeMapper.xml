@@ -100,4 +100,6 @@ JOIN goodstype2 g2 ON (g2.goodstype_id = g1.goodstype_id)
 JOIN goodstype3 g3 ON (g3.goodstype2_id = g2.goodstype2_id)
 WHERE g1.goodstype_id = #{id}
     </select>
+
+
 </mapper>

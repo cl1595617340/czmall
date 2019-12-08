@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.Goodstype3Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Goodstype3">
+        <id column="goodstype3_id" property="goodstype3Id" />
+        <result column="goodstype3_name" property="goodstype3Name" />
+        <result column="goodstype2_id" property="goodstype2Id" />
+        <result column="goodstype3_state" property="goodstype3State" />
+        <result column="goodstype3_picture" property="goodstype3Picture" />
+
+        <!--一对多的物品-->
+        <collection property="goodsList" ofType="com.bdqn.springboot.entity.Goods">
+            <id column="goods_id" property="goodsId" />
+            <result column="goods_type3_id" property="goodsType3Id" />
+            <result column="goods_name" property="goodsName" />
+            <result column="goods_describe" property="goodsDescribe" />
+            <result column="goods_repertory" property="goodsRepertory" />
+            <result column="goods_info" property="goodsInfo" />
+            <result column="goods_explain" property="goodsExplain" />
+            <result column="goods_create" property="goods_create" />
+            <result column="goods_state" property="goods_state" />
+            <result column="goods_title" property="goods_title" />
+        </collection>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        goodstype3_id, goodstype3_name, goodstype2_id, goodstype3_state, goodstype3_picture
+    </sql>
+
+    <select id="f_getType3AndGoods" resultMap="BaseResultMap">
+ SELECT * FROM goods
+ JOIN goodstype3 ON (goods.`goods_type3_id` = goodstype3.`goodstype3_id`)
+     <where>
+         goods.goods_state = 0
+         <if test="name!=null and name!=''">
+             AND goods.`goods_name` LIKE CONCAT('%',#{name},'%')
+         </if>
+     </where>
+    </select>
+</mapper>

@@ -25,7 +25,7 @@ private static final long serialVersionUID=1L;
     /**
      * 关联的手机id
      */
-    private Long phoneId;
+    private Long goods_id;
 
     private String parameterHeight;
 
@@ -59,12 +59,12 @@ private static final long serialVersionUID=1L;
     /**
      * 机身存储
      */
-    private String parameterStore;
+    private String parameterStore;//没有了
 
     /**
      * 电池信息
      */
-    private String parameterCell;
+    private Integer parameterCell;
 
     /**
      * 尺寸（英寸）
@@ -80,6 +80,7 @@ private static final long serialVersionUID=1L;
      * 触摸屏
      */
     private String parameterTouch;
+    /*--------------------------------拍摄功能----*/
 
     /**
      * 前置摄像头像素
@@ -110,26 +111,26 @@ private static final long serialVersionUID=1L;
     /**
      * 音乐播放器
      */
-    private String parameterMusicplayer;
-
+    private String parameterMusicplayer;//没有了
+    /*--------------------------------音乐与音响----*/
     /**
      * MP3铃声 0 1
      */
     @TableField("parameter_MP3ringtone")
     private Integer parameterMp3ringtone;
-
+    /*--------------------------------指纹识别----*/
     /**
      * 指纹识别
      */
     @TableField("parameter_fingerprintRecognition")
     private String parameterFingerprintrecognition;
-
+    /*--------------------------------操作系统----*/
     /**
      * 操作系统
      */
     @TableField("parameter_OS")
     private String parameterOs;
-
+    /*--------------------------------网络参数----*/
     /**
      * 网络类型
      */
@@ -140,7 +141,7 @@ private static final long serialVersionUID=1L;
      * 双卡使用说明
      */
     private String parameterNeworkinstructions;
-
+    /*--------------------------------数据连接----*/
     /**
      * WLAN
      */
@@ -158,7 +159,7 @@ private static final long serialVersionUID=1L;
      */
     @TableField("parameter_OTG")
     private Integer parameterOtg;
-
+    /*--------------------------------传感器----*/
     /**
      * 重力感应器 0 1
      */
@@ -170,7 +171,7 @@ private static final long serialVersionUID=1L;
      */
     @TableField("parameter_PhotosensitiveSensor")
     private Integer parameterPhotosensitivesensor;
-
+    /*--------------------------------内置应用----*/
     /**
      * 社交
      */
@@ -191,6 +192,18 @@ private static final long serialVersionUID=1L;
      */
     private String parameterLive;
 
+    /**
+     * 生活
+     */
+    private String parameter_screen;
+
+    public String getParameter_screen() {
+        return parameter_screen;
+    }
+
+    public void setParameter_screen(String parameter_screen) {
+        this.parameter_screen = parameter_screen;
+    }
 
     public Long getParameterId() {
         return parameterId;
@@ -200,12 +213,12 @@ private static final long serialVersionUID=1L;
         this.parameterId = parameterId;
     }
 
-    public Long getPhoneId() {
-        return phoneId;
+    public Long getGoods_id() {
+        return goods_id;
     }
 
-    public void setPhoneId(Long phoneId) {
-        this.phoneId = phoneId;
+    public void setGoods_id(Long goods_id) {
+        this.goods_id = goods_id;
     }
 
     public String getParameterHeight() {
@@ -272,11 +285,12 @@ private static final long serialVersionUID=1L;
         this.parameterStore = parameterStore;
     }
 
-    public String getParameterCell() {
+
+    public Integer getParameterCell() {
         return parameterCell;
     }
 
-    public void setParameterCell(String parameterCell) {
+    public void setParameterCell(Integer parameterCell) {
         this.parameterCell = parameterCell;
     }
 
@@ -468,7 +482,7 @@ private static final long serialVersionUID=1L;
     public String toString() {
         return "Parameter{" +
         "parameterId=" + parameterId +
-        ", phoneId=" + phoneId +
+        ", phoneId=" + goods_id +
         ", parameterHeight=" + parameterHeight +
         ", parameterWidth=" + parameterWidth +
         ", parameterThickness=" + parameterThickness +

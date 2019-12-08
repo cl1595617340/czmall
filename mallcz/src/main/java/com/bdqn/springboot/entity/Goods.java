@@ -72,6 +72,11 @@ private static final long serialVersionUID=1L;
     private Goodstype3 goodstype3;
 
 
+    //1对1的参数
+    @TableField(exist = false)
+    private Parameter parameter;
+
+
     /*创建时间*/
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date goods_create;
@@ -83,6 +88,28 @@ private static final long serialVersionUID=1L;
     /*0在，1下架*/
     @TableField("goods_state")
     private Integer goods_state;
+
+
+    /**
+     * 主页的小标题
+     */
+    private String goods_title;
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public String getGoods_title() {
+        return goods_title;
+    }
+
+    public void setGoods_title(String goods_title) {
+        this.goods_title = goods_title;
+    }
+
+    public void setParameter(Parameter parameter) {
+        this.parameter = parameter;
+    }
 
     public Integer getGoods_state() {
         return goods_state;

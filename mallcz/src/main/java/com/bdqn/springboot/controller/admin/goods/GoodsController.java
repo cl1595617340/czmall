@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bdqn.springboot.entity.*;
 import com.bdqn.springboot.entity.inputSearch.InputSearch;
-import com.bdqn.springboot.service.GoodsService;
-import com.bdqn.springboot.service.GoodscolorService;
-import com.bdqn.springboot.service.Goodstype3Service;
-import com.bdqn.springboot.service.VersionsService;
+import com.bdqn.springboot.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import javafx.scene.control.Tab;
@@ -42,8 +39,13 @@ public class GoodsController {
     @Resource
     private GoodscolorService goodscolorService;
 
+
+    @Resource
+    private ParameterService parameterService;
+
     /*上传的文件名字，放在全局是因为一个文件要上传4次（前台和后台），文件名字不能变*/
     private String uploadPicturename;
+
 
     /*询查员工主列表有分页*/
     @RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -194,6 +196,7 @@ public class GoodsController {
 
     /*---------------------------------------------------------------展示图的4个文件上传方法-----------*/
     //这个是后台
+    @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public void upload(MultipartFile file){
         System.out.println("2");
         try {
@@ -392,9 +395,184 @@ public class GoodsController {
 
         }
 
-
         Boolean res = goodscolorService.updateById(goodscolor);
         map.put("res",res);
+        return JSON.toJSONString(map);
+    }
+
+    /*----------------------------------------------------------------参数操作-----*/
+    /*修改参数*/
+    @RequestMapping("/updateParameter")
+    public String updateParameter(String obj){
+        Map<String, Object> map = new HashMap<String, Object>();
+        /*吧前台传来的json对象解析成*/
+        Parameter parameter = JSON.parseObject(obj,Parameter.class);
+
+        try {
+            Boolean res = parameterService.updateById(parameter);
+            map.put("res",res);
+        } catch (Exception e) {
+            map.put("res",false);
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /*添加参数*/
+    @RequestMapping("/addParameter")
+    public String addParameter(String obj){
+        Map<String, Object> map = new HashMap<String, Object>();
+        /*吧前台传来的json对象解析成*/
+        Parameter parameter = JSON.parseObject(obj,Parameter.class);
+
+        try {
+            Boolean res = parameterService.save(parameter);
+            map.put("res",res);
+        } catch (Exception e) {
+            map.put("res",false);
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+    }
+
+
+    /*--------------------------------------富文本的上传图片，也是4次,没办法重命名了，因为富文本编辑器文件名没法更新----*/
+    //这个是后台
+    @RequestMapping(value = "/mdupload",method = RequestMethod.POST)
+    public void mdupload(MultipartFile file){
+        System.out.println("2");
+        try {
+            // 获取项目根路径
+            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            String str = basePath.toString();
+            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
+
+
+            String path = str1+"\\src\\main\\resources\\static\\static\\images\\goodsinfo\\";
+
+            String oldFileName = file.getOriginalFilename();
+
+            File file2 = new File(path + oldFileName);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //这个是前台（第二个重新写个控制器，因为MultipartFile文件对象，好像不能用2次）
+    @RequestMapping(value = "/mdupload02",method = RequestMethod.POST)
+    public String mdupload02(MultipartFile file,String name){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            System.out.println("1");
+
+            String path = "D:\\web\\js\\vue-manage-system-master\\public\\static\\images\\goodsinfo\\";
+            String oldFileName = file.getOriginalFilename();
+
+            File file2 = new File(path + oldFileName);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
+            map.put("oldFileName",oldFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+    }
+
+
+    //在这里上传第三次图片，是因为vue整合spring后，修改图片无法及时回显，所以上传到Totarge编译文件里
+    @RequestMapping(value = "/mdupload03Totarget",method = RequestMethod.POST)
+    public void mdupload03Totarget(MultipartFile file){
+        System.out.println("3");
+        try {
+            // 获取项目根路径
+            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
+            String str = basePath.toString();
+            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
+
+
+            String path = str1+"target\\classes\\static\\static\\images\\goodsinfo\\";
+
+            String oldFileName = file.getOriginalFilename();
+
+            File file2 = new File(path + oldFileName);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    //第4次上传文件，这个是项目前台
+    @RequestMapping(value = "/mdupload04Tofront",method = RequestMethod.POST)
+    public void mdupload04Tofront(MultipartFile file){
+        try {
+            System.out.println("4");
+            // 获取项目根路径
+
+            String path = "D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\static\\images\\goodsinfo\\";
+
+            String oldFileName = file.getOriginalFilename();
+
+            File file2 = new File(path + oldFileName);
+            file.transferTo(file2);
+
+            String imgurl = file2.toString();
+            System.out.println(imgurl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /*---------------------------------------修改商品的基本信息--*/
+    @RequestMapping("/updateGoods")
+    public String updateGoods(String obj){
+        Map<String, Object> map = new HashMap<String, Object>();
+        /*吧前台传来的json对象解析成*/
+        Goods goods = JSON.parseObject(obj,Goods.class);
+        try {
+            Boolean res = goodsService.updateById(goods);
+            map.put("res",res);
+        } catch (Exception e) {
+            map.put("res",false);
+            e.printStackTrace();
+        }
+
+        return JSON.toJSONString(map);
+
+    }
+
+    /*---------------------------------------添加商品的基本信息--*/
+    @RequestMapping("/addGoods")
+    public String addGoods(String obj){
+        Map<String, Object> map = new HashMap<String, Object>();
+        /*吧前台传来的json对象解析成*/
+        Goods goods = JSON.parseObject(obj,Goods.class);
+        try {
+            Boolean res = goodsService.save(goods);
+            map.put("res",res);
+        } catch (Exception e) {
+            map.put("res",false);
+            e.printStackTrace();
+        }
+
         return JSON.toJSONString(map);
     }
 }

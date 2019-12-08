@@ -36,6 +36,19 @@ private static final long serialVersionUID=1L;
      */
     private Integer versionsPrice;
 
+    /**
+     * 版本标签，如极速畅玩，实用等
+     */
+    private String versions_tab;
+
+
+    public String getVersions_tab() {
+        return versions_tab;
+    }
+
+    public void setVersions_tab(String versions_tab) {
+        this.versions_tab = versions_tab;
+    }
 
     public Long getVersionsId() {
         return versionsId;

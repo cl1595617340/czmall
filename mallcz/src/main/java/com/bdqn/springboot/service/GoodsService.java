@@ -6,6 +6,7 @@ import com.bdqn.springboot.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bdqn.springboot.entity.Goodscolor;
 import com.bdqn.springboot.entity.Versions;
+import com.bdqn.springboot.entity.queryList.QueryList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,20 +23,36 @@ import java.util.Map;
 public interface GoodsService extends IService<Goods> {
     /**
      * 询查主列表有分页
+     *
      * @return
      * @throws Exception
      */
-    IPage<Goods> getGoodsList(Page<Goods> page, Goods goods)throws Exception;
+    IPage<Goods> getGoodsList(Page<Goods> page, Goods goods) throws Exception;
 
+    /*下面两个是为了拿分页数量的嵌套查询*/
     List<Versions> getVersions(Integer id);
 
     List<Goodscolor> getGoodscolor(Integer id);
+
     /*批量下架商品*/
-    int updateGodosState(Map<String,Object> map)throws Exception;
+    int updateGodosState(Map<String, Object> map) throws Exception;
 
     /*子组件版本添加后根基goodsId刷新用的*/
-    List<Versions> Versionslist(Long goodsId)throws Exception;
+    List<Versions> Versionslist(Long goodsId) throws Exception;
 
     /*子组件展示图添加后根基goodsId刷新用的*/
-    List<Goodscolor> GoodscolorlistById(Long goodsId)throws Exception;
+    List<Goodscolor> GoodscolorlistById(Long goodsId) throws Exception;
+
+
+    /*-------------------------前端的商品接口方法-------------*/
+
+    /*主页分类显示所有手机*/
+    List<Goods> f_getGoodsListToType(QueryList queryList)throws Exception;
+
+    /*下面是1对多的接口方法*/
+    /*1,查出分页数量的物品id*/
+    List<Goods> page_getGoodsID(@Param("statrPage") Integer statrPage,@Param("endPage") Integer endPage)throws Exception;
+
+    /*2,查出物品完整连表的数据条数,根据分页数量计算--(物品的总数)--,物品id是由步骤1得来的*/
+    Integer page_getGoodsSum(Integer id)throws Exception;
 }

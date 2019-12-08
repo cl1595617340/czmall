@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +33,17 @@ private static final long serialVersionUID=1L;
      */
     private String goodstype3Picture;
 
+/*一对多的物品*/
+    private List<Goods> goodsList;
+
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
 
     public Long getGoodstype3Id() {
         return goodstype3Id;

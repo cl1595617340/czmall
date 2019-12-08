@@ -6,6 +6,7 @@ import com.bdqn.springboot.entity.Goods;
 import com.bdqn.springboot.dao.GoodsMapper;
 import com.bdqn.springboot.entity.Goodscolor;
 import com.bdqn.springboot.entity.Versions;
+import com.bdqn.springboot.entity.queryList.QueryList;
 import com.bdqn.springboot.service.GoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -66,5 +67,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public List<Goodscolor> GoodscolorlistById(Long goodsId) throws Exception {
         return goodsMapper.GoodscolorlistById(goodsId);
+    }
+
+    @Override
+    public List<Goods> f_getGoodsListToType(QueryList queryList) throws Exception {
+        return goodsMapper.f_getGoodsListToType(queryList);
+    }
+
+    @Override
+    public List<Goods> page_getGoodsID(Integer statrPage, Integer endPage) throws Exception {
+        return goodsMapper.page_getGoodsID(statrPage,endPage);
+    }
+
+    @Override
+    public Integer page_getGoodsSum(Integer id) throws Exception {
+        return goodsMapper.page_getGoodsSum(id);
     }
 }

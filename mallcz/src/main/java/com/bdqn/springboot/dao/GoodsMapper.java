@@ -6,6 +6,7 @@ import com.bdqn.springboot.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bdqn.springboot.entity.Goodscolor;
 import com.bdqn.springboot.entity.Versions;
+import com.bdqn.springboot.entity.queryList.QueryList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -41,4 +42,18 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     /*子组件展示图添加后根基goodsId刷新用的*/
     List<Goodscolor> GoodscolorlistById(Long goodsId)throws Exception;
+
+
+
+    /*-------------------------前端的商品接口方法-------------*/
+
+    /*主页分类显示所有手机*/
+    List<Goods> f_getGoodsListToType(QueryList queryList)throws Exception;
+
+    /*下面是1对多的接口方法*/
+    /*1,查出分页数量的物品id*/
+    List<Goods> page_getGoodsID(@Param("statrPage") Integer statrPage,@Param("endPage") Integer endPage)throws Exception;
+
+    /*2,查出物品完整连表的数据条数,根据分页数量计算--(物品的总数)--,物品id是由步骤1得来的*/
+    Integer page_getGoodsSum(Integer id)throws Exception;
 }

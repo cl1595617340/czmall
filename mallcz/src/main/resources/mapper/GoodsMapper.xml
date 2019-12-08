@@ -13,11 +13,55 @@
         <result column="goods_explain" property="goodsExplain" />
         <result column="goods_create" property="goods_create" />
         <result column="goods_state" property="goods_state" />
+        <result column="goods_title" property="goods_title" />
 
+        <!-- 1对1的3级分类 -->
         <association property="goodstype3" javaType="com.bdqn.springboot.entity.Goodstype3">
             <id column="g3_id" property="goodstype3Id" />
             <result column="g3_name" property="goodstype3Name" />
         </association>
+
+        <!-- 1对1的参数 -->
+        <association property="parameter" javaType="com.bdqn.springboot.entity.Parameter">
+            <id column="parameter_id" property="parameterId" />
+            <result column="goods_id" property="goods_id" />
+            <result column="parameter_height" property="parameterHeight" />
+            <result column="parameter_height" property="parameterHeight" />
+            <result column="parameter_width" property="parameterWidth" />
+            <result column="parameter_thickness" property="parameterThickness" />
+            <result column="parameter_weight" property="parameterWeight" />
+            <result column="parameter_showtime" property="parameterShowtime" />
+            <result column="parameter_cpu" property="parameterCpu" />
+            <result column="parameter_cpunum" property="parameterCpunum" />
+            <result column="parameter_store" property="parameterStore" />
+            <result column="parameter_cell" property="parameterCell" />
+            <result column="parameter_size" property="parameterSize" />
+            <result column="parameter_distinguishability" property="parameterDistinguishability" />
+            <result column="parameter_touch" property="parameterTouch" />
+            <result column="parameter_frontpixel" property="parameterFrontpixel" />
+            <result column="parameter_laterNumcameras" property="parameterLaternumcameras" />
+            <result column="parameter_laterflashlight" property="parameterLaterflashlight" />
+            <result column="parameter_autofocusing" property="parameterAutofocusing" />
+            <result column="parameter_recmode" property="parameterRecmode" />
+            <result column="parameter_musicplayer" property="parameterMusicplayer" />
+            <result column="parameter_MP3ringtone" property="parameterMp3ringtone" />
+            <result column="parameter_fingerprintRecognition" property="parameterFingerprintrecognition" />
+            <result column="parameter_OS" property="parameterOs" />
+            <result column="parameter_networkType" property="parameterNetworktype" />
+            <result column="parameter_neworkinstructions" property="parameterNeworkinstructions" />
+            <result column="parameter_WLAN" property="parameterWlan" />
+            <result column="parameter_Bluetooth" property="parameterBluetooth" />
+            <result column="parameter_OTG" property="parameterOtg" />
+            <result column="parameter_GravitySensor" property="parameterGravitysensor" />
+            <result column="parameter_PhotosensitiveSensor" property="parameterPhotosensitivesensor" />
+            <result column="parameter_sns" property="parameterSns" />
+            <result column="parameter_movieandtv" property="parameterMovieandtv" />
+            <result column="parameter_tools" property="parameterTools" />
+            <result column="parameter_live" property="parameterLive" />
+
+            <result column="parameter_screen" property="parameter_screen" />
+        </association>
+
 
 
         <collection property="versionsList" ofType="com.bdqn.springboot.entity.Versions" column="goods_id" select="getVersions"/>
@@ -32,6 +76,8 @@
         <result column="goods_id" property="goodsId" />
         <result column="versions_name" property="versionsName" />
         <result column="versions_price" property="versionsPrice" />
+
+        <result column="versions_tab" property="versions_tab" />
     </resultMap>
     <!-- 通用查询映射结果getGoodscolor -->
     <resultMap id="BaseResultMap3" type="com.bdqn.springboot.entity.Goodscolor">
@@ -55,11 +101,12 @@ SELECT * FROM goodscolor c WHERE goods_id = #{id}
     </sql>
 
     <select id="getGoodsList" resultMap="BaseResultMap">
-        SELECT gs.*,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name FROM goods gs
-      /*   SELECT gs.*,v.versions_id v_id,v.versions_name v_name,v.versions_price v_price,c.goodscolor_id c_id,c.goodscolor_name c_name,c.goodscolor_picture c_img,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name FROM goods gs
+        SELECT gs.*,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name,p.* FROM goods gs
+        /*   SELECT gs.*,v.versions_id v_id,v.versions_name v_name,v.versions_price v_price,c.goodscolor_id c_id,c.goodscolor_name c_name,c.goodscolor_picture c_img,g3.goodstype3_id g3_id,g3.goodstype3_name g3_name FROM goods gs
         left JOIN versions v ON (v.goods_id = gs.goods_id)
         left JOIN goodscolor c ON (c.goods_id =gs.goods_id)*/
         JOIN goodstype3 g3 ON (gs.goods_type3_id = g3.goodstype3_id)
+        LEFT JOIN parameter p ON(p.goods_id = gs.goods_id)
         <where>
             <if test="goods.strartDate!=null and goods.strartDate!='' and goods.endDate!=null and goods.endDate!=''">
                 AND goods_create BETWEEN #{goods.strartDate} AND #{goods.endDate}
@@ -97,4 +144,56 @@ SELECT * FROM versions WHERE goods_id = #{goodsId}
     <select id="GoodscolorlistById" resultMap="BaseResultMap3">
 SELECT * FROM goodscolor WHERE goods_id = #{goodsId}
     </select>
+
+
+    <!--================================================前端的商品接口方法==============-->
+    <select id="f_getGoodsListToType" resultMap="BaseResultMap">
+        SELECT * FROM goods gs
+JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+JOIN versions v ON(v.goods_id = gs.goods_id)
+        JOIN parameter p ON(p.goods_id = gs.goods_id)
+        <where>
+            and gs.goods_state = 0
+            <if test="laterNumcameras!=null and laterNumcameras!=''">
+                AND p.parameter_laterNumcameras = #{laterNumcameras}
+            </if>
+            <if test="cell!=''">
+                AND p.parameter_cell > #{cell}
+            </if>
+            <if test="cpunum!=null and cpunum!=''">
+                AND p.parameter_cpunum = #{cpunum}
+            </if>
+            <if test="screen!=null and screen!=''">
+                AND p.parameter_screen = #{screen}
+            </if>
+            <if test="tab !=null and tab !=''">
+                AND v.versions_tab = #{tab}
+            </if>
+
+            <if test="startslider !=null and endslider !=''">
+                AND v.versions_price &gt;= #{startslider}   AND v.versions_price &lt;=  #{endslider}
+            </if>
+        </where>
+        LIMIT #{statrPage},#{endPage}
+    </select>
+
+    <!--/*下面是1对多的接口方法*/-->
+    <!--/*1,查出分页数量的物品id*/-->
+    <select id="page_getGoodsID" resultType="com.bdqn.springboot.entity.Goods">
+SELECT * FROM goods
+  WHERE  goods_state = 0
+ LIMIT #{statrPage},#{endPage}
+    </select>
+
+   <!-- /*2,查出物品完整连表的数据条数,根据分页数量计算&#45;&#45;(物品的总数)&#45;&#45;,物品id是由步骤1得来的*/-->
+    <select id="page_getGoodsSum" resultType="int">
+    SELECT COUNT(1) FROM goods gs
+JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+JOIN versions v ON(v.goods_id = gs.goods_id)
+JOIN parameter p ON(p.goods_id = gs.goods_id)
+ WHERE 1=1
+ AND gs.goods_id = #{id}
+    </select>
+
+
 </mapper>
