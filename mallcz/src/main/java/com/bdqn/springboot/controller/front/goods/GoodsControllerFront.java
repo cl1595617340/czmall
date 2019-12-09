@@ -70,7 +70,7 @@ public class GoodsControllerFront {
         return JSON.toJSONString(map);
     }
 
-    /*主页的大模糊查询*/
+    /*主页的搜索框模糊查询*/
     @RequestMapping("/getType3AndGoods")
     public String f_getType3AndGoods(String name){
         Map<String,Object> map = new HashMap<String, Object>();
@@ -82,6 +82,35 @@ public class GoodsControllerFront {
             e.printStackTrace();
         }
 
+        return JSON.toJSONString(map);
+    }
+
+
+    /*主页的模糊查询*/
+    @RequestMapping("/f_likeGetGoods")
+    public String f_likeGetGoods(String name,String type){
+        Map<String,Object> map = new HashMap<String, Object>();
+
+        try {
+            List<Goods> goodsList = goodsService.f_likeGetGoods(name,type);
+            map.put("goodsList",goodsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /*主页的大模糊查询取反，主要查询除了手机分类的数据*/
+    @RequestMapping("/f_likeGetGoodsNot")
+    public String f_likeGetGoodsNot(String name,String type){
+        Map<String,Object> map = new HashMap<String, Object>();
+
+        try {
+            List<Goods> goodsList = goodsService.f_likeGetGoodsNot(name,type);
+            map.put("goodsList",goodsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return JSON.toJSONString(map);
     }
 }

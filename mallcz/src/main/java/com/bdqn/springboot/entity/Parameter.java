@@ -19,6 +19,7 @@ public class Parameter implements Serializable {
 
 private static final long serialVersionUID=1L;
 
+
     @TableId(value = "parameter_id", type = IdType.AUTO)
     private Long parameterId;
 
@@ -193,7 +194,7 @@ private static final long serialVersionUID=1L;
     private String parameterLive;
 
     /**
-     * 生活
+     * 屏幕类型
      */
     private String parameter_screen;
 

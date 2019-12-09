@@ -196,4 +196,39 @@ JOIN parameter p ON(p.goods_id = gs.goods_id)
     </select>
 
 
+    <select id="f_likeGetGoods" resultMap="BaseResultMap">
+     SELECT * FROM goods gs
+LEFT JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+LEFT JOIN versions v ON(v.goods_id = gs.goods_id)
+LEFT JOIN parameter p ON(p.goods_id = gs.goods_id)
+LEFT JOIN goodstype3 g3 ON(gs.goods_type3_id = g3.goodstype3_id)
+<where>
+    and gs.goods_state = 0
+    <if test="name!=null and name!=''">
+        AND gs.`goods_name` LIKE CONCAT('%',#{name},'%')
+    </if>
+    <if test="name!=null and name!=''">
+        AND  g3.goodstype3_name  = #{type}
+    </if>
+</where>
+    </select>
+
+    <select id="f_likeGetGoodsNot" resultMap="BaseResultMap">
+        SELECT * FROM goods gs
+        LEFT JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+        LEFT JOIN versions v ON(v.goods_id = gs.goods_id)
+        LEFT JOIN parameter p ON(p.goods_id = gs.goods_id)
+        LEFT JOIN goodstype3 g3 ON(gs.goods_type3_id = g3.goodstype3_id)
+        <where>
+            and gs.goods_state = 0
+            <if test="name!=null and name!=''">
+                AND gs.`goods_name` LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="name!=null and name!=''">
+                AND NOT  g3.goodstype3_name  = #{type}
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

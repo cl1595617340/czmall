@@ -56,4 +56,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     /*2,查出物品完整连表的数据条数,根据分页数量计算--(物品的总数)--,物品id是由步骤1得来的*/
     Integer page_getGoodsSum(Integer id)throws Exception;
+
+    /*主页的大模糊查询*/
+    List<Goods> f_likeGetGoods(@Param("name") String name,@Param("type") String type)throws Exception;
+
+    /*主页的大模糊查询取反，主要查询除了手机分类的数据*/
+    List<Goods> f_likeGetGoodsNot(@Param("name") String name,@Param("type") String type)throws Exception;
 }

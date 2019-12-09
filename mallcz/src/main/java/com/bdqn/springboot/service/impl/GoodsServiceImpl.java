@@ -83,4 +83,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Integer page_getGoodsSum(Integer id) throws Exception {
         return goodsMapper.page_getGoodsSum(id);
     }
+
+    @Override
+    public List<Goods> f_likeGetGoods(String name, String type) throws Exception {
+        return goodsMapper.f_likeGetGoods(name,type);
+    }
+
+    @Override
+    public List<Goods> f_likeGetGoodsNot(String name, String type) throws Exception {
+        return goodsMapper.f_likeGetGoodsNot(name,type);
+    }
 }
