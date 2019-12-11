@@ -565,6 +565,7 @@ public class GoodsController {
         Map<String, Object> map = new HashMap<String, Object>();
         /*吧前台传来的json对象解析成*/
         Goods goods = JSON.parseObject(obj,Goods.class);
+        goods.setGoods_create(new Date());
         try {
             Boolean res = goodsService.save(goods);
             map.put("res",res);

@@ -93,4 +93,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public List<Goods> f_likeGetGoodsNot(String name, String type) throws Exception {
         return goodsMapper.f_likeGetGoodsNot(name,type);
     }
+
+    @Override
+    public Goods f_getParameterinfo(Long id) throws Exception {
+        return goodsMapper.f_getParameterinfo(id);
+    }
 }

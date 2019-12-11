@@ -82,7 +82,9 @@ private static final long serialVersionUID=1L;
     private Date goods_create;
 
     //根据新建日期查询的2个属性
+    @TableField(exist = false)
     private String strartDate;//开始
+    @TableField(exist = false)
     private String endDate;//结束
 
     /*0在，1下架*/
@@ -94,6 +96,48 @@ private static final long serialVersionUID=1L;
      * 主页的小标题
      */
     private String goods_title;
+
+    /**
+     * 是否支持花呗(0,支持,1不支持)
+     */
+    @TableField("goods_loans")
+    private Integer goods_loans;
+    /**
+     * 是否支持以旧换新(0,支持,1不支持)
+     */
+    @TableField("goods_oldToNew")
+    private Integer goods_oldToNew;
+
+    /**
+     *是否有赠品(0,有，1没)
+     */
+    @TableField("goods_complimentary")
+    private Integer goods_complimentary;
+
+
+    public Integer getGoods_complimentary() {
+        return goods_complimentary;
+    }
+
+    public void setGoods_complimentary(Integer goods_complimentary) {
+        this.goods_complimentary = goods_complimentary;
+    }
+
+    public Integer getGoods_loans() {
+        return goods_loans;
+    }
+
+    public void setGoods_loans(Integer goods_loans) {
+        this.goods_loans = goods_loans;
+    }
+
+    public Integer getGoods_oldToNew() {
+        return goods_oldToNew;
+    }
+
+    public void setGoods_oldToNew(Integer goods_oldToNew) {
+        this.goods_oldToNew = goods_oldToNew;
+    }
 
     public Parameter getParameter() {
         return parameter;

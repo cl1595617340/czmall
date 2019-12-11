@@ -113,4 +113,28 @@ public class GoodsControllerFront {
         }
         return JSON.toJSONString(map);
     }
+
+    /*根据商品id查询信息(富文本)*/
+    @RequestMapping("/f_getGoodsByid")
+    public String f_getGoodsByid(Integer id){
+        Map<String,Object> map = new HashMap<String, Object>();
+        Goods goods = goodsService.getById(id);
+        map.put("goods",goods);
+        return JSON.toJSONString(map);
+    }
+
+    /*4表查询手机的参数信息*/
+    @RequestMapping("/f_getParameterinfo")
+    public String f_getParameterinfo(Long id){
+        Map<String,Object> map = new HashMap<String, Object>();
+        try {
+            Goods goodsList = goodsService.f_getParameterinfo(id);
+            map.put("goodsList",goodsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+
+    }
+
 }

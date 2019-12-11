@@ -62,4 +62,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     /*主页的大模糊查询取反，主要查询除了手机分类的数据*/
     List<Goods> f_likeGetGoodsNot(@Param("name") String name,@Param("type") String type)throws Exception;
+
+    /*4表查询手机的参数信息*/
+    Goods f_getParameterinfo(Long id)throws Exception;
+
 }

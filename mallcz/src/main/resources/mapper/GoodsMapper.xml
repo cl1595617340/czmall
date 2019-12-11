@@ -15,6 +15,9 @@
         <result column="goods_state" property="goods_state" />
         <result column="goods_title" property="goods_title" />
 
+        <result column="goods_loans" property="goods_loans" />
+        <result column="goods_oldToNew" property="goods_oldToNew" />
+        <result column="goods_complimentary" property="goods_complimentary" />
         <!-- 1对1的3级分类 -->
         <association property="goodstype3" javaType="com.bdqn.springboot.entity.Goodstype3">
             <id column="g3_id" property="goodstype3Id" />
@@ -207,7 +210,7 @@ LEFT JOIN goodstype3 g3 ON(gs.goods_type3_id = g3.goodstype3_id)
     <if test="name!=null and name!=''">
         AND gs.`goods_name` LIKE CONCAT('%',#{name},'%')
     </if>
-    <if test="name!=null and name!=''">
+    <if test="type!=null and type!=''">
         AND  g3.goodstype3_name  = #{type}
     </if>
 </where>
@@ -224,11 +227,19 @@ LEFT JOIN goodstype3 g3 ON(gs.goods_type3_id = g3.goodstype3_id)
             <if test="name!=null and name!=''">
                 AND gs.`goods_name` LIKE CONCAT('%',#{name},'%')
             </if>
-            <if test="name!=null and name!=''">
+            <if test="type!=null and type!=''">
                 AND NOT  g3.goodstype3_name  = #{type}
             </if>
         </where>
     </select>
 
+   <!-- /*4表查询手机的参数信息*/-->
+    <select id="f_getParameterinfo" resultMap="BaseResultMap">
+  SELECT * FROM goods gs
+LEFT JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+LEFT JOIN versions v ON(v.goods_id = gs.goods_id)
+LEFT JOIN parameter p ON(p.goods_id = gs.goods_id)
+WHERE gs.goods_id = #{id}
+    </select>
 
 </mapper>
