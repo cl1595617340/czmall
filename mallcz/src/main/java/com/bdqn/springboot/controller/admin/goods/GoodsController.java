@@ -194,46 +194,20 @@ public class GoodsController {
         return JSON.toJSONString(map);
     }
 
-    /*---------------------------------------------------------------展示图的4个文件上传方法-----------*/
-    //这个是后台
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public void upload(MultipartFile file){
-        System.out.println("2");
-        try {
-            // 获取项目根路径
-            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
-            String str = basePath.toString();
-            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
 
 
-            String path = str1+"\\src\\main\\resources\\static\\static\\images\\goods\\";
-
-            File file2 = new File(path + uploadPicturename);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    //这个是前台（第二个重新写个控制器，因为MultipartFile文件对象，好像不能用2次）
-    @RequestMapping(value = "/upload02",method = RequestMethod.POST)
-    public void upload02(MultipartFile file){
+    public String upload(MultipartFile file){
+        String newFileName="";
         try {
             System.out.println("1");
 
-            String path = "D:\\web\\js\\vue-manage-system-master\\public\\static\\images\\goods\\";
+            String path = "D:\\nginx\\nginx-1.12.2\\html\\static\\static\\images\\goods\\";
             String oldFileName = file.getOriginalFilename();
 
 
             String suffix = FilenameUtils.getExtension(oldFileName);
             //加密后的文件新名字
-            String newFileName = UUID.randomUUID() + "." + suffix;
+            newFileName = UUID.randomUUID() + "." + suffix;
 
 
             //文件名字赋值给全局
@@ -249,56 +223,9 @@ public class GoodsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return newFileName;
     }
 
-
-    //在这里上传第三次图片，是因为vue整合spring后，修改图片无法及时回显，所以上传到Totarge编译文件里
-    @RequestMapping(value = "/upload03Totarget",method = RequestMethod.POST)
-    public void upload03Totarget(MultipartFile file){
-        System.out.println("3");
-        try {
-            // 获取项目根路径
-            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
-            String str = basePath.toString();
-            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
-
-
-            String path = str1+"target\\classes\\static\\static\\images\\goods\\";
-
-            File file2 = new File(path + uploadPicturename);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    //第4次上传文件，这个是项目前台
-    @RequestMapping(value = "/upload04Tofront",method = RequestMethod.POST)
-    public void upload04Tofront(MultipartFile file){
-        try {
-            System.out.println("4");
-            // 获取项目根路径
-
-            String path = "D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\static\\images\\goods\\";
-
-            File file2 = new File(path + uploadPicturename);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
     /*添加颜色展示图*/
@@ -308,8 +235,8 @@ public class GoodsController {
         /*吧前台传来的json对象解析成*/
         Goodscolor goodscolor = JSON.parseObject(obj,Goodscolor.class);
 
-        goodscolor.setGoodscolorPicture("static/images/goods/"+uploadPicturename);
-        upload(file);
+        String newFileName =  upload(file);
+        goodscolor.setGoodscolorPicture("http://localhost:8070/static/images/goods/"+newFileName);
         Boolean res = goodscolorService.save(goodscolor);
         map.put("res",res);
         return JSON.toJSONString(map);
@@ -333,37 +260,14 @@ public class GoodsController {
     public String delete(String delete){
 
         try {
-            /*2个vue项目的图片*/
-            File file=new File("D:\\web\\js\\vue-manage-system-master\\public\\"+ delete);
+            String removerstr = "http://localhost:8070/";
+            String imgstr = delete.replace(removerstr,"");
+            File file=new File("D:\\nginx\\nginx-1.12.2\\html\\static\\"+ imgstr);
             if(file.exists() && file.isFile()){
                 file.delete();
             }
 
-            File file2 = new File("D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\"+ delete);
-            if(file2.exists() && file2.isFile()){
-                file2.delete();
-            }
-
-            // 获取项目根路径
-            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
-            String str = basePath.toString();
-            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
-
-            String path = str1+"\\src\\main\\resources\\static\\";
-
-            File file3 = new File(path+ delete);
-            if(file3.exists() && file3.isFile()){
-                file3.delete();
-            }
-
-
-            String path2 = str1+"target\\classes\\static\\";
-
-            File file4 = new File(path2+ delete);
-            if(file4.exists() && file4.isFile()){
-                file4.delete();
-            }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -389,8 +293,8 @@ public class GoodsController {
 
         /*没有修改图片，就只发送一条修改语句，不做图片的上传操作*/
         if (type==1){
-            goodscolor.setGoodscolorPicture("static/images/goods/"+uploadPicturename);//存到数据库的路径
-            upload(file);
+            String newFileName =  upload(file);
+            goodscolor.setGoodscolorPicture("http://localhost:8070/static/images/goods/"+newFileName);
         }else {
 
         }
@@ -436,34 +340,7 @@ public class GoodsController {
     }
 
 
-    /*--------------------------------------富文本的上传图片，也是4次,没办法重命名了，因为富文本编辑器文件名没法更新----*/
-    //这个是后台
-    @RequestMapping(value = "/mdupload",method = RequestMethod.POST)
-    public void mdupload(MultipartFile file){
-        System.out.println("2");
-        try {
-            // 获取项目根路径
-            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
-            String str = basePath.toString();
-            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
 
-
-            String path = str1+"\\src\\main\\resources\\static\\static\\images\\goodsinfo\\";
-
-            String oldFileName = file.getOriginalFilename();
-
-            File file2 = new File(path + oldFileName);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     //这个是前台（第二个重新写个控制器，因为MultipartFile文件对象，好像不能用2次）
     @RequestMapping(value = "/mdupload02",method = RequestMethod.POST)
@@ -472,7 +349,7 @@ public class GoodsController {
         try {
             System.out.println("1");
 
-            String path = "D:\\web\\js\\vue-manage-system-master\\public\\static\\images\\goodsinfo\\";
+            String path = "D:\\nginx\\nginx-1.12.2\\html\\static\\static\\images\\goodsinfo\\";
             String oldFileName = file.getOriginalFilename();
 
             File file2 = new File(path + oldFileName);
@@ -489,56 +366,6 @@ public class GoodsController {
     }
 
 
-    //在这里上传第三次图片，是因为vue整合spring后，修改图片无法及时回显，所以上传到Totarge编译文件里
-    @RequestMapping(value = "/mdupload03Totarget",method = RequestMethod.POST)
-    public void mdupload03Totarget(MultipartFile file){
-        System.out.println("3");
-        try {
-            // 获取项目根路径
-            final File basePath = new File(ResourceUtils.getURL("classpath:").getPath());
-            String str = basePath.toString();
-            String str1 = str.substring(0, str.indexOf("target\\classes"));//截取target\classes之前的字符串
-
-
-            String path = str1+"target\\classes\\static\\static\\images\\goodsinfo\\";
-
-            String oldFileName = file.getOriginalFilename();
-
-            File file2 = new File(path + oldFileName);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    //第4次上传文件，这个是项目前台
-    @RequestMapping(value = "/mdupload04Tofront",method = RequestMethod.POST)
-    public void mdupload04Tofront(MultipartFile file){
-        try {
-            System.out.println("4");
-            // 获取项目根路径
-
-            String path = "D:\\web\\js\\project-master\\vue\\vue_smart_project\\vue_smart_black\\static\\images\\goodsinfo\\";
-
-            String oldFileName = file.getOriginalFilename();
-
-            File file2 = new File(path + oldFileName);
-            file.transferTo(file2);
-
-            String imgurl = file2.toString();
-            System.out.println(imgurl);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
     /*---------------------------------------修改商品的基本信息--*/
