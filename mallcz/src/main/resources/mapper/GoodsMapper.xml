@@ -88,6 +88,9 @@
         <result column="goods_id" property="goodsId" />
         <result column="goodscolor_name" property="goodscolorName" />
         <result column="goodscolor_picture" property="goodscolorPicture" />
+
+        <result column="goodscolor_linearS" property="goodscolor_linearS" />
+        <result column="goodscolor_linearE" property="goodscolor_linearE" />
     </resultMap>
 
     <select id="getVersions" resultMap="BaseResultMap2">
@@ -95,7 +98,7 @@ SELECT * FROM versions v WHERE v.goods_id = #{id}
     </select>
 
     <select id="getGoodscolor" resultMap="BaseResultMap3">
-SELECT * FROM goodscolor c WHERE goods_id = #{id}
+SELECT * FROM goodscolor c WHERE c.goods_id = #{id}
     </select>
 
     <!-- 通用查询结果列 -->
@@ -150,6 +153,7 @@ SELECT * FROM goodscolor WHERE goods_id = #{goodsId}
 
 
     <!--================================================前端的商品接口方法==============-->
+    <!--这里是第三步得到步骤2得到的数据条数，再分页-->
     <select id="f_getGoodsListToType" resultMap="BaseResultMap">
         SELECT * FROM goods gs
 JOIN goodscolor c ON(c.goods_id = gs.goods_id)
@@ -197,6 +201,7 @@ JOIN parameter p ON(p.goods_id = gs.goods_id)
  WHERE 1=1
  AND gs.goods_id = #{id}
     </select>
+
 
 
     <select id="f_likeGetGoods" resultMap="BaseResultMap">

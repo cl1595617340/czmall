@@ -39,6 +39,28 @@ private static final long serialVersionUID=1L;
     @TableField("goodscolor_picture")
     private String goodscolorPicture;
 
+    @TableField("goodscolor_linearS")
+    private String goodscolor_linearS;
+
+    @TableField("goodscolor_linearE")
+    private String goodscolor_linearE;
+
+
+    public String getGoodscolor_linearS() {
+        return goodscolor_linearS;
+    }
+
+    public void setGoodscolor_linearS(String goodscolor_linearS) {
+        this.goodscolor_linearS = goodscolor_linearS;
+    }
+
+    public String getGoodscolor_linearE() {
+        return goodscolor_linearE;
+    }
+
+    public void setGoodscolor_linearE(String goodscolor_linearE) {
+        this.goodscolor_linearE = goodscolor_linearE;
+    }
 
     public Long getGoodscolorId() {
         return goodscolorId;
