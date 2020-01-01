@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.AddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Address">
+        <id column="addressId" property="addressId" />
+        <result column="memberId" property="memberId" />
+        <result column="addressName" property="addressName" />
+        <result column="addressIpone" property="addressIpone" />
+        <result column="addressProvince" property="addressProvince" />
+        <result column="addressCity" property="addressCity" />
+        <result column="addressCounty" property="addressCounty" />
+        <result column="addressinfo" property="addressinfo" />
+        <result column="addressDefault" property="addressDefault" />
+
+        <result column="provinceId" property="provinceId" />
+        <result column="cityId" property="cityId" />
+        <result column="countyId" property="countyId"/>
+    </resultMap>
+
+
+    <update id="f_updateOtherdef">
+      UPDATE address
+        <set>
+            addressDefault = 1,
+       </set>
+        where memberId = #{id}
+    </update>
+</mapper>

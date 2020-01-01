@@ -47,7 +47,7 @@ public class GoodsController {
     private String uploadPicturename;
 
 
-    /*询查员工主列表有分页*/
+    /*询查主列表有分页*/
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String productList(String newobj,
                               @RequestParam(value = "page",defaultValue = "1")Long current,
