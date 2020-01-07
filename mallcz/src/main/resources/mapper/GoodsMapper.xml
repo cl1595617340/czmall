@@ -65,8 +65,6 @@
             <result column="parameter_screen" property="parameter_screen" />
         </association>
 
-
-
         <collection property="versionsList" ofType="com.bdqn.springboot.entity.Versions" column="goods_id" select="getVersions"/>
 
         <collection property="goodscolorList" ofType="com.bdqn.springboot.entity.Goodscolor" column="goods_id" select="getGoodscolor"/>
@@ -156,8 +154,8 @@ SELECT * FROM goodscolor WHERE goods_id = #{goodsId}
     <!--这里是第三步得到步骤2得到的数据条数，再分页-->
     <select id="f_getGoodsListToType" resultMap="BaseResultMap">
         SELECT * FROM goods gs
-JOIN goodscolor c ON(c.goods_id = gs.goods_id)
-JOIN versions v ON(v.goods_id = gs.goods_id)
+        JOIN goodscolor c ON(c.goods_id = gs.goods_id)
+        JOIN versions v ON(v.goods_id = gs.goods_id)
         JOIN parameter p ON(p.goods_id = gs.goods_id)
         <where>
             and gs.goods_state = 0
@@ -245,6 +243,20 @@ LEFT JOIN goodscolor c ON(c.goods_id = gs.goods_id)
 LEFT JOIN versions v ON(v.goods_id = gs.goods_id)
 LEFT JOIN parameter p ON(p.goods_id = gs.goods_id)
 WHERE gs.goods_id = #{id}
+    </select>
+
+
+    <!--点击一级分类显示旗下的所有手机-->
+    <select id="f_typeGoods" resultMap="BaseResultMap">
+  SELECT * FROM goodstype g1
+JOIN goodstype2 g2 ON (g2.goodstype_id = g1.goodstype_id)
+JOIN goodstype3 g3 ON (g3.goodstype2_id = g2.goodstype2_id)
+JOIN goods gs ON (gs.goods_type3_id = g3.goodstype3_id)
+JOIN goodscolor gc ON (gc.goods_id = gs.goods_id)
+JOIN versions v ON (v.goods_id = gs.goods_id)
+WHERE 1=1
+AND g1.goodstype_id = #{id}
+AND gs.goods_state = 0
     </select>
 
 </mapper>

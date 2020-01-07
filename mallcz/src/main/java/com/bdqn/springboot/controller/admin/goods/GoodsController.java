@@ -258,7 +258,6 @@ public class GoodsController {
     //---------------------------------------------------修改和删除图片前要先删除他的上一个图片
     @RequestMapping("/delete")
     public String delete(String delete){
-
         try {
             String removerstr = "http://localhost:8070/";
             String imgstr = delete.replace(removerstr,"");

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Order">
+        <id column="order_id" property="orderId" />
+        <result column="order_num" property="orderNum" />
+        <result column="order_price" property="orderPrice" />
+        <result column="order_logistics" property="orderLogistics" />
+        <result column="order_found" property="orderFound" />
+        <result column="order_paydate" property="orderPaydate" />
+        <result column="order_payok" property="orderPayok" />
+        <result column="order_state" property="orderState" />
+        <result column="order_invoicetype" property="orderInvoicetype" />
+        <result column="order_company" property="orderCompany" />
+        <result column="order_paytype" property="orderPaytype" />
+        <result column="order_count" property="orderCount" />
+        <result column="memberName" property="memberName" />
+        <result column="order_send" property="order_send" />
+
+        <result column="orderpayok2" property="orderpayok2" />
+
+        <!--订单一对多的订单关系-->
+        <collection property="orderRelationList" ofType="com.bdqn.springboot.entity.OrderRelation">
+            <id column="relation_id" property="relationId" />
+            <result column="relation_order_id" property="relationOrderId" />
+            <result column="relation_member_id" property="relation_member_id" />
+            <result column="relation_goods_id" property="relationGoodsId" />
+            <result column="relation_address_id" property="relationAddressId" />
+            <result column="relation_color_id" property="relationColorId" />
+            <result column="relation_versions_id" property="relationVersionsId" />
+            <result column="relation_compName" property="relationCompname" />
+            <result column="relation_compimg" property="relationCompimg" />
+            <result column="relation_count" property="relation_count" />
+
+            <!--订单一对一的会员-->
+            <association property="member" javaType="com.bdqn.springboot.entity.Member">
+                <id column="memberId" property="memberId" />
+                <result column="memberName" property="memberName" />
+                <result column="sex" property="sex" />
+                <result column="email" property="email" />
+                <result column="birthday" property="birthday" />
+                <result column="memberProvince" property="memberProvince" />
+                <result column="membercity" property="membercity" />
+                <result column="memberState" property="memberState" />
+                <result column="memberipone" property="memberipone" />
+                <result column="memberpwd" property="memberpwd" />
+                <result column="avatar" property="avatar" />
+            </association>
+
+            <!--订单一对一的地址-->
+            <association property="address" javaType="com.bdqn.springboot.entity.Address">
+                <id column="addressId" property="addressId" />
+                <result column="memberId" property="memberId" />
+                <result column="addressName" property="addressName" />
+                <result column="addressIpone" property="addressIpone" />
+                <result column="addressProvince" property="addressProvince" />
+                <result column="addressCity" property="addressCity" />
+                <result column="addressCounty" property="addressCounty" />
+                <result column="addressinfo" property="addressinfo" />
+                <result column="addressDefault" property="addressDefault" />
+
+                <result column="provinceId" property="provinceId" />
+                <result column="cityId" property="cityId" />
+                <result column="countyId" property="countyId"/>
+            </association>
+
+            <!--订单一对一的商品颜色图片-->
+            <association property="goodscolor" javaType="com.bdqn.springboot.entity.Goodscolor">
+                <id column="goodscolor_id" property="goodscolorId" />
+                <result column="goods_id" property="goodsId" />
+                <result column="goodscolor_name" property="goodscolorName" />
+                <result column="goodscolor_picture" property="goodscolorPicture" />
+                <result column="goodscolor_linearS" property="goodscolor_linearS" />
+                <result column="goodscolor_linearE" property="goodscolor_linearE" />
+            </association>
+            <!--订单一对一的版本-->
+            <association property="versions" javaType="com.bdqn.springboot.entity.Versions">
+                <id column="versions_id" property="versionsId" />
+                <result column="goods_id" property="goodsId" />
+                <result column="versions_name" property="versionsName" />
+                <result column="versions_price" property="versionsPrice" />
+
+                <result column="versions_tab" property="versions_tab" />
+            </association>
+
+            <!--订单一对一的商品-->
+            <association property="goods" javaType="com.bdqn.springboot.entity.Goods">
+                <id column="goods_id" property="goodsId" />
+                <result column="goods_type3_id" property="goodsType3Id" />
+                <result column="goods_name" property="goodsName" />
+                <result column="goods_describe" property="goodsDescribe" />
+                <result column="goods_repertory" property="goodsRepertory" />
+                <result column="goods_info" property="goodsInfo" />
+                <result column="goods_explain" property="goodsExplain" />
+                <result column="goods_create" property="goods_create" />
+                <result column="goods_state" property="goods_state" />
+                <result column="goods_title" property="goods_title" />
+
+                <result column="goods_loans" property="goods_loans" />
+                <result column="goods_oldToNew" property="goods_oldToNew" />
+                <result column="goods_complimentary" property="goods_complimentary" />
+            </association>
+        </collection>
+
+    </resultMap>
+
+
+
+    <!--后台要分页的map-->
+    <resultMap id="BaseResultMapsb" type="com.bdqn.springboot.entity.Order">
+        <id column="order_id" property="orderId" />
+        <result column="order_num" property="orderNum" />
+        <result column="order_price" property="orderPrice" />
+        <result column="order_logistics" property="orderLogistics" />
+        <result column="order_found" property="orderFound" />
+        <result column="order_paydate" property="orderPaydate" />
+        <result column="order_payok" property="orderPayok" />
+        <result column="order_state" property="orderState" />
+        <result column="order_invoicetype" property="orderInvoicetype" />
+        <result column="order_company" property="orderCompany" />
+        <result column="order_paytype" property="orderPaytype" />
+        <result column="order_count" property="orderCount" />
+        <result column="memberName" property="memberName" />
+        <result column="order_send" property="order_send" />
+
+        <result column="orderpayok2" property="orderpayok2" />
+
+        <collection property="orderRelationList" ofType="com.bdqn.springboot.entity.OrderRelation" column="order_id" select="getOrderRelationList"/>
+    </resultMap>
+
+    <!-- getorderRelationList -->
+    <resultMap id="BaseResultMap2" type="com.bdqn.springboot.entity.OrderRelation">
+        <id column="relation_id" property="relationId" />
+        <result column="relation_order_id" property="relationOrderId" />
+        <result column="relation_member_id" property="relation_member_id" />
+        <result column="relation_goods_id" property="relationGoodsId" />
+        <result column="relation_address_id" property="relationAddressId" />
+        <result column="relation_color_id" property="relationColorId" />
+        <result column="relation_versions_id" property="relationVersionsId" />
+        <result column="relation_compName" property="relationCompname" />
+        <result column="relation_compimg" property="relationCompimg" />
+        <result column="relation_count" property="relation_count" />
+
+        <association property="member" javaType="com.bdqn.springboot.entity.Member" column="relation_member_id" select="getmember"/>
+        <association property="address" javaType="com.bdqn.springboot.entity.Address" column="relation_address_id" select="getAddress"/>
+        <association property="goodscolor" javaType="com.bdqn.springboot.entity.Goodscolor" column="relation_color_id" select="getgoodscolor"/>
+        <association property="versions" javaType="com.bdqn.springboot.entity.Versions" column="relation_versions_id" select="getVersions"/>
+        <association property="goods" javaType="com.bdqn.springboot.entity.Goods" column="relation_goods_id" select="getgoods"/>
+
+    </resultMap>
+
+
+    <!--一对多的嵌套查询-->
+    <select id="getOrderRelationList" resultMap="BaseResultMap2">
+SELECT * FROM order_relation r
+WHERE relation_order_id = #{id}
+    </select>
+
+    <select id="getmember" resultType="com.bdqn.springboot.entity.Member">
+ SELECT * FROM member WHERE memberId = #{id}
+    </select>
+    <select id="getAddress" resultType="com.bdqn.springboot.entity.Address">
+ SELECT * FROM address WHERE addressId = #{id}
+    </select>
+    <select id="getgoodscolor" resultType="com.bdqn.springboot.entity.Goodscolor">
+ SELECT * FROM goodscolor WHERE goodscolor_id = #{id}
+    </select>
+    <select id="getVersions" resultType="com.bdqn.springboot.entity.Versions">
+ SELECT * FROM versions WHERE versions_id = #{id}
+    </select>
+    <select id="getgoods" resultType="com.bdqn.springboot.entity.Goods">
+ SELECT * FROM goods WHERE goods_id = #{id}
+    </select>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        order_id, order_num, order_price, order_logistics, order_found, order_paydate, order_payok, order_state, order_invoicetype, order_company, order_paytype, order_count
+    </sql>
+
+
+
+  <!--  /*根据订单编号查询订单，做添加订单编号用*/-->
+    <select id="f_getOrderIdBynum" resultMap="BaseResultMap">
+      SELECT * FROM orders WHERE order_num = #{num}
+    </select>
+
+
+
+    <select id="f_memOrderList" resultMap="BaseResultMap">
+        SELECT * FROM orders o
+        JOIN order_relation r ON (r.relation_order_id = o.order_id)
+        JOIN member m ON (r.relation_member_id = m.memberId)
+        JOIN goods g ON (r.relation_goods_id = g.goods_id)
+        JOIN address a ON (r.relation_address_id = a.addressId)
+        JOIN goodscolor gs ON (r.relation_color_id = gs.goodscolor_id)
+        JOIN versions v ON (r.relation_versions_id = v.versions_id)
+        <where>
+            <if test="memberId!=null">
+                AND m.memberId = #{memberId}
+            </if>
+            <if test="state!=null">
+                AND o.order_state = #{state}
+            </if>
+        </where>
+        ORDER BY o.order_found DESC
+    </select>
+
+  <!--  /*根基订单id查询订单详细数据*/-->
+    <select id="f_getOrderInfo" resultMap="BaseResultMap">
+SELECT * FROM orders o
+JOIN order_relation r ON (r.relation_order_id = o.order_id)
+JOIN member m ON (r.relation_member_id = m.memberId)
+JOIN goods g ON (r.relation_goods_id = g.goods_id)
+JOIN address a ON (r.relation_address_id = a.addressId)
+JOIN goodscolor gs ON (r.relation_color_id = gs.goodscolor_id)
+JOIN versions v ON (r.relation_versions_id = v.versions_id)
+WHERE 1=1
+AND o.order_id = #{id}
+    </select>
+
+    <!--修改订单状态-->
+    <update id="f_updateOrderState">
+        UPDATE orders
+        <set>
+            order_state = #{state},
+        </set>
+        where order_id = #{id}
+    </update>
+
+    <!--分页-->
+    <select id="getOrderList" resultMap="BaseResultMapsb">
+SELECT * FROM orders o
+        <where>
+            <if test="orders!=null">
+                <if test="orders.memberName!=null and orders.memberName!=''">
+                    AND o.memberName like concat('%',#{orders.memberName},'%')
+                </if>
+                <if test="orders.orderState!=null">
+                    AND o.order_state = #{orders.orderState}
+                </if>
+            </if>
+        </where>
+
+    </select>
+
+    <!--修改状态位待收货，就是1，的发货状态为发货-->
+    <update id="updateOrderSend">
+        UPDATE orders
+        <set>
+            order_send = 1,
+        </set>
+        where order_id = #{id}
+    </update>
+
+    <!--/*用户确实收货，修改完成时间 */-->
+    <update id="f_updatePayOkDate">
+        UPDATE orders
+        <set>
+            orderpayok2 = #{dates},
+        </set>
+        where order_id = #{id}
+    </update>
+
+    <!--/用户成功支付后，修改他订单的支付时间  */-->
+    <update id="f_updatePayok">
+        UPDATE orders
+        <set>
+            order_paydate = #{dateok},
+        </set>
+        where order_id = #{id}
+    </update>
+
+    <!--修改订单的支付方式（花呗，支付宝 */-->
+    <update id="f_updatePayType">
+        UPDATE orders
+        <set>
+            order_paytype = #{type},
+        </set>
+        where order_id = #{id}
+    </update>
+</mapper>

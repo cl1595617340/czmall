@@ -70,6 +70,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
+    public List<Goods> f_typeGoods(Integer id) throws Exception {
+        return goodsMapper.f_typeGoods(id);
+    }
+
+    @Override
     public List<Goods> f_getGoodsListToType(QueryList queryList) throws Exception {
         return goodsMapper.f_getGoodsListToType(queryList);
     }

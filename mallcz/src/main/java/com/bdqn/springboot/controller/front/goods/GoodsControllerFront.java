@@ -137,4 +137,18 @@ public class GoodsControllerFront {
 
     }
 
+
+    /*点击一级分类显示旗下的所有手机*/
+    @RequestMapping("/f_typeGoods")
+    public String f_typeGoods(Integer id){
+        Map<String,Object> map = new HashMap<String, Object>();
+        try {
+            List<Goods> goodsList = goodsService.f_typeGoods(id);
+            map.put("goodsList",goodsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return JSON.toJSONString(map);
+
+    }
 }

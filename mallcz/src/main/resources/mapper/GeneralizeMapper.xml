@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.GeneralizeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.Generalize">
+        <id column="generalize_id" property="generalizeId" />
+        <result column="generalize_name" property="generalizeName" />
+        <result column="generalize_statesb" property="generalizeStatesb" />
+
+        <collection property="generalizeRelationList" ofType="com.bdqn.springboot.entity.GeneralizeRelation">
+            <id column="generalize_relation_id" property="generalizeRelationId" />
+            <result column="generalize_id" property="generalizeId" />
+            <result column="goods_id" property="goodsId" />
+            <result column="generalize_goods_img" property="generalizeGoodsImg" />
+            <result column="generalize_type" property="generalize_type" />
+
+            <association property="goods" javaType="com.bdqn.springboot.entity.Goods">
+                <id column="goods_id" property="goodsId" />
+                <result column="goods_type3_id" property="goodsType3Id" />
+                <result column="goods_name" property="goodsName" />
+                <result column="goods_describe" property="goodsDescribe" />
+                <result column="goods_repertory" property="goodsRepertory" />
+                <result column="goods_info" property="goodsInfo" />
+                <result column="goods_explain" property="goodsExplain" />
+                <result column="goods_create" property="goods_create" />
+                <result column="goods_state" property="goods_state" />
+                <result column="goods_title" property="goods_title" />
+
+                <result column="goods_loans" property="goods_loans" />
+                <result column="goods_oldToNew" property="goods_oldToNew" />
+                <result column="goods_complimentary" property="goods_complimentary" />
+
+                <collection property="goodscolorList" ofType="com.bdqn.springboot.entity.Goodscolor">
+                    <id column="goodscolor_id" property="goodscolorId" />
+                    <result column="goods_id" property="goodsId" />
+                    <result column="goodscolor_name" property="goodscolorName" />
+                    <result column="goodscolor_picture" property="goodscolorPicture" />
+
+                    <result column="goodscolor_linearS" property="goodscolor_linearS" />
+                    <result column="goodscolor_linearE" property="goodscolor_linearE" />
+                </collection>
+                <collection property="versionsList" ofType="com.bdqn.springboot.entity.Versions">
+                    <id column="versions_id" property="versionsId" />
+                    <result column="goods_id" property="goodsId" />
+                    <result column="versions_name" property="versionsName" />
+                    <result column="versions_price" property="versionsPrice" />
+
+                    <result column="versions_tab" property="versions_tab" />
+                </collection>
+
+            </association>
+        </collection>
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        generalize_id, generalize_name, generalize_state
+    </sql>
+
+    <!--查询主页推广数据-->
+    <select id="f_GeneralizeList" resultMap="BaseResultMap">
+SELECT * FROM generalize  g
+JOIN generalize_relation gr ON (gr.generalize_id = g.generalize_id)
+JOIN goods gs ON (gr.goods_id = gs.goods_id)
+JOIN goodscolor c ON (c.goods_id = gs.goods_id)
+JOIN versions v ON (v.goods_id = gs.goods_id)
+WHERE g.generalize_statesb = 0
+    </select>
+
+    <!--根基专区id得到旗下的商品-->
+    <select id="getGeneralizeById" resultMap="BaseResultMap">
+SELECT * FROM generalize  g
+JOIN generalize_relation gr ON (gr.generalize_id = g.generalize_id)
+JOIN goods gs ON (gr.goods_id = gs.goods_id)
+JOIN goodscolor c ON (c.goods_id = gs.goods_id)
+JOIN versions v ON (v.goods_id = gs.goods_id)
+WHERE  1=1
+AND gs.goods_state = 0
+ AND g.generalize_id = #{id}
+    </select>
+
+    <!--停用和启用专区-->
+    <update id="updateGeneralizeState">
+        UPDATE  generalize
+        <set>
+            <if test="state!=null">
+                generalize_statesb = #{state},
+            </if>
+        </set>
+        WHERE generalize_id = #{id}
+    </update>
+</mapper>

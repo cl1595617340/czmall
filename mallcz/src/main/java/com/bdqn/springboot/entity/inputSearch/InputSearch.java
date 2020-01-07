@@ -3,6 +3,7 @@ package com.bdqn.springboot.entity.inputSearch;
 /*输入建议*/
 public class InputSearch {
 
+
     private String value;
 
 

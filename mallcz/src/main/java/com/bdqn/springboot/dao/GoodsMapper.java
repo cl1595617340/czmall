@@ -44,6 +44,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<Goodscolor> GoodscolorlistById(Long goodsId)throws Exception;
 
 
+    /*点击一级分类显示旗下的所有手机*/
+    List<Goods> f_typeGoods(Integer id)throws Exception;
 
     /*-------------------------前端的商品接口方法-------------*/
 

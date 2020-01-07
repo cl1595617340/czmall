@@ -24,6 +24,7 @@ public class AlipaySubmit {
         request.setGrantType("authorization_code");
         try {
             AlipaySystemOauthTokenResponse oauthTokenResponse = alipayClient.execute(request);
+
             System.out.println(oauthTokenResponse.getAccessToken());
             return oauthTokenResponse.getAccessToken();
         } catch (AlipayApiException e) {

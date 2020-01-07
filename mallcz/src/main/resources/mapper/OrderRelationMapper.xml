@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.OrderRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.OrderRelation">
+        <id column="relation_id" property="relationId" />
+        <result column="relation_order_id" property="relationOrderId" />
+        <result column="relation_member_id" property="relation_member_id" />
+        <result column="relation_goods_id" property="relationGoodsId" />
+        <result column="relation_address_id" property="relationAddressId" />
+        <result column="relation_color_id" property="relationColorId" />
+        <result column="relation_versions_id" property="relationVersionsId" />
+        <result column="relation_compName" property="relationCompname" />
+        <result column="relation_compimg" property="relationCompimg" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        relation_id, relation_order_id, relation_goods_id, relation_address_id, relation_color_id, relation_versions_id, relation_compName, relation_compimg
+    </sql>
+
+</mapper>
