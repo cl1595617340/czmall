@@ -259,4 +259,25 @@ AND g1.goodstype_id = #{id}
 AND gs.goods_state = 0
     </select>
 
+   <!-- /*3.1根据3级分类id查询旗下的所有商品*/-->
+    <select id="f_type3Goods" resultMap="BaseResultMap">
+  SELECT * FROM goodstype g1
+JOIN goodstype2 g2 ON (g2.goodstype_id = g1.goodstype_id)
+JOIN goodstype3 g3 ON (g3.goodstype2_id = g2.goodstype2_id)
+JOIN goods gs ON (gs.goods_type3_id = g3.goodstype3_id)
+JOIN goodscolor gc ON (gc.goods_id = gs.goods_id)
+JOIN versions v ON (v.goods_id = gs.goods_id)
+WHERE 1=1
+AND g3.goodstype3_id = #{id}
+AND gs.goods_state = 0
+    </select>
+
+
+
+    <!--主页手机的分类放进redis缓存-->
+    <select id="getGoodsByTypeipone" resultMap="BaseResultMap">
+    SELECT * FROM goods gs
+JOIN goodstype3 g3 ON (gs.`goods_type3_id` = g3.`goodstype3_id`)
+WHERE gs.goods_state = 0 AND g3.`goodstype3_name`='手机' LIMIT 0,6
+    </select>
 </mapper>

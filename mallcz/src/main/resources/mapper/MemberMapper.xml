@@ -51,7 +51,7 @@
 
     <!--一对多-->
     <select id="getaddressList" resultMap="BaseResultMap2">
- SELECT * FROM address WHERE memberId = #{id}
+ SELECT * FROM address WHERE memberId = #{id} and isdel = 0
     </select>
 
 

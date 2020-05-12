@@ -68,4 +68,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     /*4表查询手机的参数信息*/
     Goods f_getParameterinfo(Long id)throws Exception;
 
+    /*3.1根据3级分类id查询旗下的所有商品*/
+    List<Goods> f_type3Goods(Integer id)throws Exception;
+
+
+    //主页手机的分类放进redis缓存
+    List<Goods> getGoodsByTypeipone()throws Exception;
 }

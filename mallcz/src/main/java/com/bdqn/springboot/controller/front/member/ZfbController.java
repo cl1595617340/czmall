@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin
 @Controller
 public class ZfbController {
 
@@ -36,7 +36,7 @@ public class ZfbController {
     public String save() {
         Map<String,String> maps = new HashMap<String ,String>();
         //页面回调地址 必须与应用中的设置一样
-        String return_url = "http://169.254.63.227:8088/zfbLogin";
+        String return_url = "http://118.178.187.197:8088/zfbLogin";
         //回调地址必须经encode
         return_url = java.net.URLEncoder.encode(return_url);
         //重定向到授权页面
@@ -78,7 +78,7 @@ public class ZfbController {
         mapzfb.put("sb",imf);
       /*  session.setAttribute("imf", imf);*/
         /*  model.addAttribute("zfb",JSON.toJSONString(mapzfb));*/
-        return "redirect:http://localhost:8080/#/memUser";
+        return "redirect:http://118.178.187.197:8088/front/index.html#/memUser";
 
     }
 
@@ -86,7 +86,6 @@ public class ZfbController {
     @ResponseBody
     @RequestMapping(value = "/sbzfb")
     public String sbzfb(HttpSession session){
-
         return JSON.toJSONString(mapzfb);
     }
 

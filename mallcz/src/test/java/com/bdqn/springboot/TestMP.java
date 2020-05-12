@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class TestMP {
 
-    private static String author ="KazuGin";//作者名称
+    private static String author ="zh";//作者名称
     private static String outputDir ="D:\\";//生成的位置
     private static String driver ="com.mysql.cj.jdbc.Driver";//驱动，注意版本
     //连接路径,注意修改数据库名称
@@ -20,7 +20,7 @@ public class TestMP {
     private static String username ="root";//数据库用户名
     private static String password ="accp";//数据库密码
     private static String tablePrefix ="";//数据库表的前缀，如tbl_user
-    private static String [] tables = {"phone","versions","goodscolor","parameter","goods"};	//生成的表
+    private static String [] tables = {"order_address"};	//生成的表
     private static String parentPackage = "com.bdqn.springboot";//顶级包结构
     private static String dao = "dao";//数据访问层包名称
     private static String service = "service";//业务逻辑层包名称

@@ -125,7 +125,7 @@
         <result column="memberName" property="memberName" />
         <result column="order_send" property="order_send" />
 
-        <result column="orderpayok2" property="orderpayok2" />
+        <result column="orderpayok2" property="orderpayok2"/>
 
         <collection property="orderRelationList" ofType="com.bdqn.springboot.entity.OrderRelation" column="order_id" select="getOrderRelationList"/>
     </resultMap>
@@ -187,7 +187,6 @@ WHERE relation_order_id = #{id}
     </select>
 
 
-
     <select id="f_memOrderList" resultMap="BaseResultMap">
         SELECT * FROM orders o
         JOIN order_relation r ON (r.relation_order_id = o.order_id)
@@ -231,7 +230,7 @@ AND o.order_id = #{id}
 
     <!--分页-->
     <select id="getOrderList" resultMap="BaseResultMapsb">
-SELECT * FROM orders o
+    SELECT * FROM orders o
         <where>
             <if test="orders!=null">
                 <if test="orders.memberName!=null and orders.memberName!=''">
@@ -240,9 +239,12 @@ SELECT * FROM orders o
                 <if test="orders.orderState!=null">
                     AND o.order_state = #{orders.orderState}
                 </if>
+                <if test="orders.orderNum!=null and orders.orderNum!=''">
+                    AND o.order_num = #{orders.orderNum}
+                </if>
             </if>
         </where>
-
+        ORDER BY o.order_found DESC
     </select>
 
     <!--修改状态位待收货，就是1，的发货状态为发货-->

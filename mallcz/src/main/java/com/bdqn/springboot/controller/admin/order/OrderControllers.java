@@ -24,9 +24,9 @@ import java.util.Map;
 @RequestMapping("/admin/order/order")
 public class OrderControllers {
 
+
     @Resource
     private OrderService orderService;
-
     @Resource
     private OrderRelationService orderRelationService;
 
@@ -34,7 +34,7 @@ public class OrderControllers {
     @RequestMapping(value = "/getorderlist", method = RequestMethod.POST)
     public String productList(String newobj,
                               @RequestParam(value = "page",defaultValue = "1")Long current,
-                              @RequestParam(value = "size",defaultValue = "5")Long size
+                              @RequestParam(value = "size",defaultValue = "6")Long size
     ){
         Map<String,Object> map = new HashMap<String, Object>();
 
@@ -56,8 +56,8 @@ public class OrderControllers {
                 if (order1.getOrderPaydate()==null||order1.getOrderPaydate().equals("")){
                     order1.setOrderPaydate("暂无");
                 }
-                if (order1.getOrderPayok()==null||order1.getOrderPayok().equals("")){
-                    order1.setOrderPayok("暂无");
+                if (order1.getOrderpayok2()==null||order1.getOrderpayok2().equals("")){
+                    order1.setOrderpayok2("暂无");
                 }
             }
 

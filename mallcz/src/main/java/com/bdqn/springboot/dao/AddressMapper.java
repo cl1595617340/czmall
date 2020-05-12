@@ -11,4 +11,7 @@ public interface AddressMapper extends BaseMapper<Address> {
 
     /*用户点击默认地址，其他地址默认都修改为1*/
     Integer f_updateOtherdef(@Param("id") Integer id)throws Exception;
+
+    /*用户删除地址修改状态为1*/
+    int delAddress(@Param("state")Integer state,@Param("id")Integer id)throws Exception;
 }

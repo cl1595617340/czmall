@@ -1,6 +1,8 @@
 package com.bdqn.springboot.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.bdqn.springboot.dao.GoodsMapper;
+import com.bdqn.springboot.entity.Goods;
 import com.bdqn.springboot.entity.Goodstype;
 import com.bdqn.springboot.dao.GoodstypeMapper;
 import com.bdqn.springboot.entity.Goodstype2;
@@ -27,6 +29,9 @@ public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype
 
     @Resource
     private GoodstypeMapper goodstypeMapper;
+
+    @Resource
+    private GoodsMapper goodsMapper;
 
     //springboot操作redis的对象
     @Resource
@@ -72,7 +77,7 @@ public class GoodstypeServiceImpl extends ServiceImpl<GoodstypeMapper, Goodstype
 
     @Override
     public String getAllGoodsTypeByF() throws Exception {
-        //从redis缓存中读取博客分类信息
+        //从redis缓存中读取分类信息
         String getAllGoodsTypeByF = redisTemplate.opsForValue().get("getAllGoodsTypeByF");
         if (getAllGoodsTypeByF==null || getAllGoodsTypeByF.length()==0){
             List<Goodstype> goodstypeList = goodstypeMapper.getAllGoodsTypeByF();

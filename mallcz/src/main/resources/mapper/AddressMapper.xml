@@ -29,4 +29,12 @@
        </set>
         where memberId = #{id}
     </update>
+
+    <update id="delAddress">
+        UPDATE address
+        <set>
+            isdel = 1,
+        </set>
+        where addressId = #{id}
+    </update>
 </mapper>

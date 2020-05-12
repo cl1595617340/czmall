@@ -32,18 +32,13 @@ public class AlipayDemoController {
     @RequestMapping(value = "/goAlipay", produces = "text/html; charset=UTF-8")
     @ResponseBody
     public String goAlipay(HttpServletRequest request, HttpServletRequest response,String price,String ordernumsb) throws Exception {
- 
- 
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(ZfbPay.gatewayUrl, ZfbPay.app_id, ZfbPay.merchant_private_key, "json", ZfbPay.charset, ZfbPay.alipay_public_key, ZfbPay.sign_type);
- 
         //设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         alipayRequest.setReturnUrl(ZfbPay.return_url);
         alipayRequest.setNotifyUrl(ZfbPay.notify_url);
 
-
- 
         //商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = ordernumsb;
         //付款金额，必填

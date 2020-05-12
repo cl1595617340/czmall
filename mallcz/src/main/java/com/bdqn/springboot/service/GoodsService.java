@@ -66,4 +66,9 @@ public interface GoodsService extends IService<Goods> {
 
       /*4表查询手机的参数信息*/
     Goods f_getParameterinfo(Long id)throws Exception;
+
+    /*3.1根据3级分类id查询旗下的所有商品*/
+    List<Goods> f_type3Goods(Integer id)throws Exception;
+
+
 }

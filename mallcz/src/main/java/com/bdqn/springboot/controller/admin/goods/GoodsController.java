@@ -51,7 +51,7 @@ public class GoodsController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public String productList(String newobj,
                               @RequestParam(value = "page",defaultValue = "1")Long current,
-                              @RequestParam(value = "size",defaultValue = "2")Long size
+                              @RequestParam(value = "size",defaultValue = "7")Long size
         ) {
         Map<String, Object> map = new HashMap<String, Object>();
 

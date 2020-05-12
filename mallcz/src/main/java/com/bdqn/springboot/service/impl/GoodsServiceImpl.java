@@ -103,4 +103,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Goods f_getParameterinfo(Long id) throws Exception {
         return goodsMapper.f_getParameterinfo(id);
     }
+
+    @Override
+    public List<Goods> f_type3Goods(Integer id) throws Exception {
+        return goodsMapper.f_type3Goods(id);
+    }
 }

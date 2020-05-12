@@ -80,9 +80,14 @@ public class AddressController {
 
     /*删除地址*/
     @RequestMapping("/delAddress")
-    public String delAddress(Integer id){
+    public String delAddress(Integer state,Integer id){
         Map<String, Object> map = new HashMap<String, Object>();
-        Boolean res = addressService.removeById(id);
+        int res = 0;
+        try {
+            res = addressService.delAddress(state,id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         map.put("res",res);
         return JSON.toJSONString(map);
     }

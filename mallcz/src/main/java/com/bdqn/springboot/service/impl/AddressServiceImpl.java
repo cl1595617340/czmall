@@ -23,4 +23,9 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     public Integer f_updateOtherdef(Integer id) throws Exception {
         return addressMapper.f_updateOtherdef(id);
     }
+
+    @Override
+    public int delAddress(Integer state, Integer id) throws Exception {
+        return addressMapper.delAddress(state,id);
+    }
 }

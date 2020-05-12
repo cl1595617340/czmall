@@ -28,6 +28,7 @@ public class GoodsTypeController {
     private GoodstypeService goodstypeService;
 
 
+    //从redis中华
     @RequestMapping("/getAllGoodsTypeByF")
     public String getAllGoodsTypeByF(){
         String GoodsTypeByF = null;

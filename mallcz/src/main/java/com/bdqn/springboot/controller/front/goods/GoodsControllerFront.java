@@ -38,7 +38,7 @@ public class GoodsControllerFront {
 
         QueryList queryList = null;
         if (obj!=null){
-            /*吧前台传来的json对象解析成*/
+            /*吧前台传来的json对象解析成查询对象*/
             queryList = JSON.parseObject(obj,QueryList.class);
         }
 
@@ -54,11 +54,10 @@ public class GoodsControllerFront {
             int sum = 0;//分页的总数
             //根据物品的id得到记录数并且像加
             for (Integer integer : integerList) {
-                sum+=goodsService.page_getGoodsSum(integer);
+                sum += goodsService.page_getGoodsSum(integer);
             }
 
             /*System.out.println(sum);*/
-
             queryList.setStatrPage(0);
             queryList.setEndPage(sum);
             List<Goods> goodsList = goodsService.f_getGoodsListToType(queryList);
@@ -140,10 +139,17 @@ public class GoodsControllerFront {
 
     /*点击一级分类显示旗下的所有手机*/
     @RequestMapping("/f_typeGoods")
-    public String f_typeGoods(Integer id){
+    public String f_typeGoods(Integer id,Integer type){
         Map<String,Object> map = new HashMap<String, Object>();
+        List<Goods> goodsList = null;
         try {
-            List<Goods> goodsList = goodsService.f_typeGoods(id);
+            /*type==0就是查询2级分类下的商品,1就是3级分类下的商品*/
+            if (type==0){
+                goodsList = goodsService.f_typeGoods(id);
+            }else {
+                goodsList = goodsService.f_type3Goods(id);
+            }
+
             map.put("goodsList",goodsList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,4 +157,6 @@ public class GoodsControllerFront {
         return JSON.toJSONString(map);
 
     }
+
+
 }

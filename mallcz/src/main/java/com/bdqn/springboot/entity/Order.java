@@ -93,6 +93,7 @@ private static final long serialVersionUID=1L;
     /**
      *
      */
+    @TableField("orderpayok2")
     private String orderpayok2;
 
     /*订单一对多的订单关系（正常情况下是一对一的关系，但是如果订单里有相同商品，颜色不同的话就查不出来）*/
@@ -231,7 +232,8 @@ private static final long serialVersionUID=1L;
     public Order() {
     }
 
-    public Order(Long orderId, String memberName, String orderNum, Integer orderPrice, String orderLogistics, String orderFound, String orderPaydate, String orderPayok, Integer orderState, Integer orderInvoicetype, String orderCompany, Integer orderPaytype, Integer orderCount, Integer order_send, List<OrderRelation> orderRelationList) {
+
+    public Order(Long orderId, String memberName, String orderNum, Integer orderPrice, String orderLogistics, String orderFound, String orderPaydate, String orderPayok, Integer orderState, Integer orderInvoicetype, String orderCompany, Integer orderPaytype, Integer orderCount, Integer order_send, String orderpayok2, List<OrderRelation> orderRelationList) {
         this.orderId = orderId;
         this.memberName = memberName;
         this.orderNum = orderNum;
@@ -246,8 +248,7 @@ private static final long serialVersionUID=1L;
         this.orderPaytype = orderPaytype;
         this.orderCount = orderCount;
         this.order_send = order_send;
+        this.orderpayok2 = orderpayok2;
         this.orderRelationList = orderRelationList;
     }
-
-
 }

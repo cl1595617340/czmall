@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.springboot.dao.TAdminMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bdqn.springboot.entity.TAdmin">
+        <id column="admin_id" property="adminId" />
+        <result column="admin_Name" property="adminName" />
+        <result column="admin_pwd" property="adminPwd" />
+        <result column="role_id" property="roleId" />
+        <result column="admin_img" property="admin_img" />
+
+        <association property="role" javaType="com.bdqn.springboot.entity.TRole">
+            <id column="roleid" property="roleId" />
+            <result column="rolename" property="roleName" />
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        admin_id, admin_Name, admin_pwd, role_id
+    </sql>
+
+
+    <select id="getAdminByName" resultMap="BaseResultMap">
+     SELECT ta.*,tr.role_id roleid,tr.role_Name rolename FROM t_admin ta
+	JOIN t_role tr ON (ta.role_id = tr.role_id)
+	 WHERE admin_Name = #{name}
+    </select>
+
+
+</mapper>
